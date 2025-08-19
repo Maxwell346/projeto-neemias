@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Projeto Neemias - Versículo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+
+      /* Fundo escuro estilo espaço */
+      background-color: #000;
+    }
+
+    /* Partículas simulando estrelas */
+    .particle {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      width: 2px;
+      height: 2px;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-10vh) translateX(50px); opacity: 0; }
+    }
+
+    .card {
+      background: rgba(59, 55, 55, 0.75);
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(255,255,255,0.2);
+      max-width: 500px;
+      width: 90%;
+      opacity: 0;
+      transform: translateY(-50px) scale(0.8);
+      transition: all 0.5s ease;
+      height: auto;
+      display: flex;
+      justify-content: center; 
+      align-items: center;    
+      text-align: center;
+      flex-direction: column;
+      z-index: 1; /* card fica acima das partículas */
+      color: #fff;
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .card.pulse {
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #fffffe;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .fade-in {
+      animation: fadeIn 1.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    #versiculo, #frase-final {
+      display: none; /* escondidos no começo */
+    }
+
+    #frase-final {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #ffeb3b;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <h1 id="mensagem">Obrigado por colaborar com o projeto Neemias</h1>
+    <p id="versiculo"></p>
+    <p id="frase-final">Jesus é contigo, não esqueça disso, ele nunca te abandonará. ❤️</p>
+  </div>
+
+  <script>
+    // Cria partículas estilo estrelas
+    for(let i = 0; i < 100; i++){
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.top = Math.random() * 100 + 'vh';
+      particle.style.width = 1 + Math.random() * 3 + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.animationDuration = 5 + Math.random() * 10 + 's';
+      document.body.appendChild(particle);
+    }
+
+    const versiculos = [
+      "Salmos 23:1 - O Senhor é o meu pastor; nada me faltará.",
+      "Filipenses 4:13 - Tudo posso naquele que me fortalece.",
+      "João 3:16 - Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.",
+      "Josué 1:9 - Não fui eu que lhe ordenei? Seja forte e corajoso! Não se apavore, nem se desanime, pois o Senhor, o seu Deus, estará com você por onde andar.",
+      "Mateus 11:28 - Vinde a mim todos os que estais cansados e sobrecarregados, e eu vos aliviarei.",
+      "Provérbios 3:5-6 - Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento. Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas.",
+      "Isaías 41:10 - Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça.",
+      "Romanos 8:31 - Se Deus é por nós, quem será contra nós?",
+      "Salmos 46:1 - Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia.",
+      "Jeremias 29:11 - Porque eu bem sei os pensamentos que penso de vós, diz o Senhor; pensamentos de paz, e não de mal, para vos dar o fim que esperais.",
+      "Mateus 5:4 - Bem-aventurados os que choram, porque eles serão consolados."
+    ];
+
+    const card = document.getElementById('card');
+    const mensagemEl = document.getElementById('mensagem');
+    const versiculoEl = document.getElementById('versiculo');
+    const fraseFinalEl = document.getElementById('frase-final');
+
+    // Mostra o card com entrada deslizando
+    setTimeout(() => {
+      card.classList.add('show');
+    }, 100);
+
+    // Após 3 segundos, troca para o versículo com efeito de digitação
+    setTimeout(() => {
+      const sorteio = Math.floor(Math.random() * versiculos.length);
+      const texto = versiculos[sorteio];
+
+      // Esconde a mensagem inicial e mostra apenas o versículo
+      mensagemEl.style.display = 'none';
+      versiculoEl.style.display = 'block';
+      fraseFinalEl.style.display = 'block';
+
+      // Ajusta padding e alinhamento para o versículo
+      card.style.padding = '20px 30px';
+      card.style.justifyContent = 'flex-start';
+      card.style.alignItems = 'flex-start';
+
+      // Pulso durante digitação
+      card.classList.add('pulse');
+
+      let i = 0;
+      function digitar() {
+        if (i < texto.length) {
+          versiculoEl.innerHTML += texto.charAt(i);
+          i++;
+          setTimeout(digitar, 50);
+        } else {
+          card.classList.remove('pulse');
+          // Mostrar frase final após 1s
+          setTimeout(() => {
+            fraseFinalEl.classList.add('fade-in');
+          }, 1000);
+        }
+      }
+
+      digitar();
+    }, 3000);
+  </script>
+</body>
+</html>
