@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <title>Projeto Neemias - Versículo</title>
   <style>
     body {
@@ -14,12 +15,9 @@
       align-items: center;
       overflow: hidden;
       position: relative;
-
-      /* Fundo escuro estilo espaço */
-      background-color: #000;
+      background-color: #000; 
     }
 
-    /* Partículas simulando estrelas */
     .particle {
       position: absolute;
       background: white;
@@ -37,22 +35,21 @@
     }
 
     .card {
-      background: rgba(59, 55, 55, 0.75);
-      padding: 40px 50px;
+      background: rgba(59, 55, 55, 0.85);
+      padding: 5vw; 
       border-radius: 20px;
       box-shadow: 0 4px 12px rgba(255,255,255,0.2);
-      max-width: 500px;
+      max-width: 70vw; 
       width: 90%;
       opacity: 0;
       transform: translateY(-50px) scale(0.8);
       transition: all 0.5s ease;
-      height: auto;
       display: flex;
       justify-content: center; 
       align-items: center;    
       text-align: center;
       flex-direction: column;
-      z-index: 1; /* card fica acima das partículas */
+      z-index: 1; 
       color: #fff;
     }
 
@@ -72,12 +69,12 @@
 
     h1 {
       margin: 0;
-      font-size: 24px;
+      font-size: 6vw; 
       color: #fffffe;
     }
 
     p {
-      font-size: 18px;
+      font-size: 4.5vw; 
       line-height: 1.6;
       margin: 0;
     }
@@ -92,14 +89,21 @@
     }
 
     #versiculo, #frase-final {
-      display: none; /* escondidos no começo */
+      display: none; 
     }
 
     #frase-final {
-      margin-top: 20px;
-      font-size: 20px;
+      margin-top: 5vw;
+      font-size: 5vw;
       color: #ffeb3b;
       opacity: 0;
+    }
+
+    @media (min-width: 768px) {
+      h1 { font-size: 28px; }
+      p { font-size: 20px; }
+      #frase-final { font-size: 22px; }
+      .card { max-width: 500px; padding: 40px; }
     }
   </style>
 </head>
@@ -111,7 +115,6 @@
   </div>
 
   <script>
-    // Cria partículas estilo estrelas
     for(let i = 0; i < 100; i++){
       const particle = document.createElement('div');
       particle.classList.add('particle');
@@ -142,27 +145,18 @@
     const versiculoEl = document.getElementById('versiculo');
     const fraseFinalEl = document.getElementById('frase-final');
 
-    // Mostra o card com entrada deslizando
     setTimeout(() => {
       card.classList.add('show');
     }, 100);
 
-    // Após 3 segundos, troca para o versículo com efeito de digitação
     setTimeout(() => {
       const sorteio = Math.floor(Math.random() * versiculos.length);
       const texto = versiculos[sorteio];
 
-      // Esconde a mensagem inicial e mostra apenas o versículo
       mensagemEl.style.display = 'none';
       versiculoEl.style.display = 'block';
       fraseFinalEl.style.display = 'block';
 
-      // Ajusta padding e alinhamento para o versículo
-      card.style.padding = '20px 30px';
-      card.style.justifyContent = 'flex-start';
-      card.style.alignItems = 'flex-start';
-
-      // Pulso durante digitação
       card.classList.add('pulse');
 
       let i = 0;
@@ -173,7 +167,6 @@
           setTimeout(digitar, 50);
         } else {
           card.classList.remove('pulse');
-          // Mostrar frase final após 1s
           setTimeout(() => {
             fraseFinalEl.classList.add('fade-in');
           }, 1000);
